@@ -27,8 +27,8 @@ public class Pref implements Const {
     }
 
     public void init(Context context) {
-        if (this.sharedPreferences == null) {
-            this.sharedPreferences = context.getSharedPreferences("QLMA", Context.MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences("QLMA", Context.MODE_PRIVATE);
         }
     }
 
@@ -42,7 +42,7 @@ public class Pref implements Const {
             }
         }
         listUser.add(user);
-        if (this.sharedPreferences == null) {
+        if (sharedPreferences == null) {
             return false;
         }
         this.sharedPreferences.edit().putString(KEY_LIST_USER, new Gson().toJson(listUser)).apply();

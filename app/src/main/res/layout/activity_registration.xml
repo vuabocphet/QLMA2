@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="mời bạn nhập username" />
+            android:hint="mời bạn nhập username" />
 
         <TextView
             android:layout_gravity="center"
@@ -56,14 +56,26 @@
             android:layout_height="wrap_content"
             android:text="Password" />
 
-        <EditText
-            android:layout_gravity="center"
-            android:id="@+id/tv_pass"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etPasswordLayout"
             android:layout_width="300dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="mời bạn nhập password" />
+            app:passwordToggleEnabled="true">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_gravity="center"
+                android:id="@+id/tv_pass"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="mời bạn nhập password" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <TextView
             android:layout_gravity="center"
@@ -75,14 +87,26 @@
             android:layout_height="wrap_content"
             android:text="Password again" />
 
-        <EditText
-            android:layout_gravity="center"
-            android:id="@+id/_tv_config_pass"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etPasswordLayout1"
             android:layout_width="300dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="mời bạn nhập lại pasword" />
+            app:passwordToggleEnabled="true">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_gravity="center"
+                android:id="@+id/_tv_config_pass"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="mời bạn nhập lại pasword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <Button
             android:layout_gravity="center"

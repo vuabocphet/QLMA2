@@ -3,6 +3,8 @@ package com.qlma.qlma.ui.user;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.qlma.qlma.R;
 import com.qlma.qlma.base.BaseActivity;
 import com.qlma.qlma.ui.user.model.User;
@@ -20,12 +23,20 @@ import java.util.List;
 
 public class Registration extends BaseActivity {
 
+    public static void open(Context context) {
+        if (context == null) {
+            return;
+        }
+        Intent intent = new Intent(context, Registration.class);
+        context.startActivity(intent);
+    }
 
     private android.widget.EditText tvName;
 
-    private android.widget.EditText tvPass;
+    private TextInputEditText tvPass;
 
-    private android.widget.EditText tvConfigPass;
+    private TextInputEditText tvConfigPass;
+
     private android.widget.Button btnRegistration;
 
     @Override
@@ -46,19 +57,25 @@ public class Registration extends BaseActivity {
         btnRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isEmptyAll() && checkSizePass(15) && checkName()) {
-                    String s = tvName.getText().toString();
-                    String s1 = tvPass.getText().toString();
-                    User user = User.init().setId(System.currentTimeMillis()).setName(s).setPass(s1);
-                    boolean b = Pref.get().putUser(user);
-                    if (b){
-                        Toast.makeText(Registration.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Toast.makeText(Registration.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
-                }
+                regis();
             }
         });
+    }
+
+    private void regis() {
+        if (isEmptyAll() && checkSizePass(5) && checkName() && checkPass()) {
+            String s = tvName.getText().toString();
+            String s1 = tvPass.getText().toString();
+            User user = User.init().setId(System.currentTimeMillis()).setName(s).setPass(s1);
+            boolean b = Pref.get().putUser(user);
+            if (b) {
+                Toast.makeText(Registration.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                LoginActivity.open(this, s);
+                finish();
+                return;
+            }
+            Toast.makeText(Registration.this, "Đăng kí thất bại thử lại", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean isEmptyAll() {
@@ -72,11 +89,22 @@ public class Registration extends BaseActivity {
             return false;
         }
         String s1 = tvPass.getText().toString();
-        if ((s1.length() > size)) {
+        if ((s1.length() < size)) {
             //todo toast ...
+            Toast.makeText(this, "Mật khẩu quá ngắn", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
+    }
+
+    private boolean checkPass() {
+        String s1 = tvPass.getText().toString();
+        String s2 = tvConfigPass.getText().toString();
+        boolean equals = s1.equals(s2);
+        if (!equals) {
+            Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+        }
+        return equals;
     }
 
     private boolean checkName() {
@@ -98,6 +126,7 @@ public class Registration extends BaseActivity {
         }
         if (ischeck) {
             //todo toast lên là tên user đã tồn tại
+            Toast.makeText(this, "Tên người dùng tồn tại", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
